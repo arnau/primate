@@ -73,4 +73,14 @@ mod tests {
         let actual = sieve(3);
         assert_eq!(&actual, &[2, 3, 5]);
     }
+
+    #[test]
+    fn twenty_primes() {
+        let actual = sieve(20);
+
+        assert_eq!(&actual,
+                   &[2, 3, 5, 7, 11, 13, 17, 19, 23, 29,
+                     31, 37, 41, 43, 47, 53, 59, 61, 67, 71]);
+    }
+
 }
