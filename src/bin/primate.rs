@@ -4,11 +4,11 @@ extern crate primate;
 
 use prettytable::Table;
 use prettytable::row::Row;
-use prettytable::cell::Cell;
 use clap::{ Arg, App };
 use std::str::FromStr;
 
 use primate::atkin;
+use primate::matrix;
 
 
 fn main() {
@@ -34,26 +34,11 @@ fn main() {
 /// Composes and prints an ASCII table with the N+1 x N+1 prime table.
 fn compose_table(n: usize) {
     let mut table = Table::new();
-    let xs = atkin::sieve(n);
-    let first_row = compose_row(cell!(""), xs.iter()
-                                             .map(|x| cell!(x))
-                                             .collect());
-    table.add_row(first_row);
+    let mtx = matrix(atkin::sieve(n));
 
-    for x in &xs {
-        let row = compose_row(cell!(*x), xs.iter()
-                                           .map(|y| cell!(x * y))
-                                           .collect::<Vec<_>>());
-        table.add_row(row);
+    for row in mtx {
+        table.add_row(Row::new(row.iter().map(|x| cell!(x)).collect()));
     }
 
     table.printstd();
-}
-
-
-fn compose_row(fst: Cell, xs: Vec<Cell>) -> Row {
-    let mut row = Row::new(xs);
-    row.insert_cell(0, fst);
-
-    row
 }
