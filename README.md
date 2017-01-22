@@ -16,3 +16,20 @@ After a bit more reading, probably the Sieve of Eratosthenes would've been a
 better choice given the complexity involved in the Sieve of Atkin.  I'll stick
 to Atkin given the tests run in less than 16s in debug mode, ~3s in release
 mode.
+
+
+# Benchmark tests
+
+```
+$ cargo bench
+Compiling primate v0.1.0 (file:///Users/arnau/kitchen/me/lab/rustlab/primate)
+Finished release [optimized] target(s) in 0.97 secs
+Running target/release/deps/atkin-6d34849fa49a431f
+
+running 3 tests
+test ten_thousandth_prime    ... bench: 568,364,467 ns/iter (+/- 68,861,895)
+test thousandth_prime        ... bench:   5,852,387 ns/iter (+/- 669,989)
+test twenty_thousandth_prime ... bench: 2,290,393,798 ns/iter (+/- 357,915,197)
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 3 measured
+```
