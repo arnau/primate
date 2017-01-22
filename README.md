@@ -1,4 +1,62 @@
-# Process
+# Primate
+
+This project contains a library `primate` and an executable `primate`.  The
+first porvides with a naive implementation of the Sieve of Atkin and the
+second a command line interface that generates a prime table for the given
+number `n`.
+
+
+## Dependencies
+
+* [Rust](https://www.rust-lang.org). Developed with v1.14.
+
+To see the libraries used, check `Cargo.toml`.
+
+
+## Usage
+
+To compile the library and binary:
+
+```sh
+cargo build --release
+```
+
+To run the tests in debug mode:
+
+```sh
+cargo test
+```
+
+To run the benchmark tests:
+
+```sh
+cargo bench
+```
+
+Note: The bench tests are intense, expect them to take a while to finish. To
+get an idea, this is what it took me last time:
+
+```
+running 3 tests
+test ten_thousandth_prime    ... bench: 568,364,467 ns/iter (+/- 68,861,895)
+test thousandth_prime        ... bench:   5,852,387 ns/iter (+/- 669,989)
+test twenty_thousandth_prime ... bench: 2,290,393,798 ns/iter (+/- 357,915,197)
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 3 measured
+```
+
+To run the executable, either run:
+
+```sh
+cargo build --release
+```
+
+And then find the executable in `./target/release/primate`.  Its help should
+be enough to explain how to use it.
+
+
+
+## Process
 
 Given computing primes is not something I do often and the request states
 “[...] that can generate a list of 20,000+ primes”.  I'm starting the task
@@ -12,24 +70,8 @@ So far:
 
 The Sieve of Atkin seems interesting so let's give it a go first.
 
+
 After a bit more reading, probably the Sieve of Eratosthenes would've been a
 better choice given the complexity involved in the Sieve of Atkin.  I'll stick
 to Atkin given the tests run in less than 16s in debug mode, ~3s in release
 mode.
-
-
-# Benchmark tests
-
-```
-$ cargo bench
-Compiling primate v0.1.0 (file:///Users/arnau/kitchen/me/lab/rustlab/primate)
-Finished release [optimized] target(s) in 0.97 secs
-Running target/release/deps/atkin-6d34849fa49a431f
-
-running 3 tests
-test ten_thousandth_prime    ... bench: 568,364,467 ns/iter (+/- 68,861,895)
-test thousandth_prime        ... bench:   5,852,387 ns/iter (+/- 669,989)
-test twenty_thousandth_prime ... bench: 2,290,393,798 ns/iter (+/- 357,915,197)
-
-test result: ok. 0 passed; 0 failed; 0 ignored; 3 measured
-```
