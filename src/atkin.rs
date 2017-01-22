@@ -156,6 +156,31 @@ mod tests {
                      31, 37, 41, 43, 47, 53, 59, 61, 67, 71]);
     }
 
+    #[test]
+    fn forty_primes() {
+        let actual = sieve(40);
+
+        assert_eq!(&actual,
+                   &vec![2, 3, 5, 7, 11, 13, 17, 19, 23, 29,
+                     31, 37, 41, 43, 47, 53, 59, 61, 67, 71,
+                     73, 79, 83, 89, 97, 101, 103, 107, 109, 113,
+                     127, 131, 137, 139, 149, 151, 157, 163, 167, 173]);
+    }
+
+
+    #[test]
+    fn thousandth_prime() {
+        let actual = sieve(1000);
+
+        assert_eq!(*actual.last().unwrap(), 7919);
+    }
+
+    #[test]
+    fn twenty_thousandth_prime() {
+        let actual = sieve(20_000);
+
+        assert_eq!(*actual.last().unwrap(), 224_737);
+    }
 
     #[test]
     fn modulo_sixty() {
