@@ -14,6 +14,16 @@ pub fn sieve(amount: usize) -> Vec<usize> {
             // Potential primes
             let xs = (2usize..).filter(by_modulo_sixty);
 
+            for x in xs {
+                // step 7: skip if x is multiple of any prime
+                if has_multiple(&primes, x) { continue; };
+
+                // Collect prime
+                &primes.push(x);
+
+                if &primes.len() == &amount { break; }
+            }
+
             primes
         }
     }
@@ -39,16 +49,79 @@ fn by_modulo_sixty(n: &usize) -> bool {
 }
 
 
+/// First quadratic: `4x^2 + y^2 = n`
+///
+/// Given `x` and `y` must be positive integers, `x` will take values of
+/// `x <= sqrt((n - 1) / 4)`.
+///
+/// `n` will be a potential prime if there are an even amount of solutions.
+/// And a solution is represented by any `y` with no reminder (i.e. integer
+/// solutions).
 fn first_quadratic(n: &usize) -> bool {
-    true
+    let limit = (((n - 1) / 4) as f64).sqrt() as usize + 1;
+
+    let mut res = 0;
+    for x in 1..limit {
+        let y = ((n - 4 * x.pow(2)) as f64).sqrt();
+        if y % 1f64 == 0f64 {
+            res += 1
+        }
+    }
+
+    res % 2 != 0
 }
 
+
+/// Second quadratic: `3x^2 + y^2 = n`
+///
+/// Given `x` and `y` must be positive integers, `x` will take values of
+/// `x <= sqrt((n - 1) / 3)`.
+///
+/// `n` will be a potential prime if there are an even amount of solutions.
+/// And a solution is represented by any `y` with no reminder (i.e. integer
+/// solutions).
 fn second_quadratic(n: &usize) -> bool {
-    true
+    let limit = (((n - 1) / 3) as f64).sqrt() as usize + 1;
+
+    let mut res = 0;
+    for x in 1..limit {
+        let y = ((n - 3 * x.pow(2)) as f64).sqrt();
+        if y % 1f64 == 0f64 {
+            res += 1
+        }
+    }
+
+    res % 2 != 0
 }
 
+/// Second quadratic: `3x^2 - y^2 = n` when `x > y`
+///
+/// Given `x` and `y` must be positive integers, `x` will take values of
+/// `x <= sqrt((3 + 2n) / 4) - 1/2`.
+///
+/// `n` will be a potential prime if there are an even amount of solutions.
+/// And a solution is represented by any `y` with no reminder (i.e. integer
+/// solutions).
 fn third_quadratic(n: &usize) -> bool {
-    true
+    let limit = ((((3 + 2 * n) as f64) / 4.).sqrt() - 0.5) as usize + 1;
+
+    let mut res = 0;
+    for x in 1..limit {
+        let z = (3 * x.pow(2)) as f64 - (*n as f64);
+        if z < 0f64 { continue; }
+
+        let y = (z).sqrt();
+        if y % 1f64 == 0f64 {
+            res += 1
+        }
+    }
+
+    res % 2 != 0
+}
+
+
+fn has_multiple(primes: &[usize], n: usize) -> bool {
+    primes.iter().find(|&p| n % p == 0).is_some()
 }
 
 
@@ -83,4 +156,22 @@ mod tests {
                      31, 37, 41, 43, 47, 53, 59, 61, 67, 71]);
     }
 
+
+    #[test]
+    fn modulo_sixty() {
+        let pairs = [
+            (7, true),
+            (41, true),
+            (49, false),
+            (125, false),
+            (169, true),
+            (7919, true)
+        ];
+
+        for &(n, expected) in &pairs {
+            let actual = by_modulo_sixty(&n);
+
+            assert_eq!(actual, expected);
+        }
+    }
 }
