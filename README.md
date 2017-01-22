@@ -58,6 +58,11 @@ be enough to explain how to use it.
 
 ## Process
 
+The decision of using Rust is mainly for my convenience as it's the language
+I'm using most of the time these days.  If I get some more time I will port
+it to Elixir.  It would be nice to use the Rust library from Elixir to explore
+interoperability between the two.
+
 Given computing primes is not something I do often and the request states
 “[...] that can generate a list of 20,000+ primes”.  I'm starting the task
 by doing a bit of research of algorithms to find primes.
@@ -75,3 +80,13 @@ After a bit more reading, probably the Sieve of Eratosthenes would've been a
 better choice given the complexity involved in the Sieve of Atkin.  I'll stick
 to Atkin given the tests run in less than 16s in debug mode, ~3s in release
 mode.
+
+
+### The Good, the Bad and the Ugly
+
+I'm fairly pleased of the current state of the Sieve of Atkin implementation.
+There is room for improvement to make it faster though.
+
+The command line interface is not good enough.  The matrix generation should
+be externalised and tested and, instead of generating all values, it should
+generate just the upper triangle.
