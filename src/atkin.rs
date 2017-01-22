@@ -60,15 +60,12 @@ fn by_modulo_sixty(n: &usize) -> bool {
 fn first_quadratic(n: &usize) -> bool {
     let limit = (((n - 1) / 4) as f64).sqrt() as usize + 1;
 
-    let mut res = 0;
-    for x in 1..limit {
+    (1..limit).fold(0, |acc, x| {
         let y = ((n - 4 * x.pow(2)) as f64).sqrt();
         if y % 1f64 == 0f64 {
-            res += 1
-        }
-    }
-
-    res % 2 != 0
+            acc + 1
+        } else { acc }
+    }) % 2 != 0
 }
 
 
@@ -83,15 +80,12 @@ fn first_quadratic(n: &usize) -> bool {
 fn second_quadratic(n: &usize) -> bool {
     let limit = (((n - 1) / 3) as f64).sqrt() as usize + 1;
 
-    let mut res = 0;
-    for x in 1..limit {
+    (1..limit).fold(0, |acc, x| {
         let y = ((n - 3 * x.pow(2)) as f64).sqrt();
         if y % 1f64 == 0f64 {
-            res += 1
-        }
-    }
-
-    res % 2 != 0
+            acc + 1
+        } else { acc }
+    }) % 2 != 0
 }
 
 /// Second quadratic: `3x^2 - y^2 = n` when `x > y`
@@ -105,18 +99,16 @@ fn second_quadratic(n: &usize) -> bool {
 fn third_quadratic(n: &usize) -> bool {
     let limit = ((((3 + 2 * n) as f64) / 4.).sqrt() - 0.5) as usize + 1;
 
-    let mut res = 0;
-    for x in 1..limit {
+    (1..limit).fold(0, |acc, x| {
         let z = (3 * x.pow(2)) as f64 - (*n as f64);
-        if z < 0f64 { continue; }
+
+        if z < 0f64 { return acc }
 
         let y = (z).sqrt();
         if y % 1f64 == 0f64 {
-            res += 1
-        }
-    }
-
-    res % 2 != 0
+            acc + 1
+        } else { acc }
+    }) % 2 != 0
 }
 
 
