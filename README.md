@@ -14,4 +14,5 @@ The Sieve of Atkin seems interesting so let's give it a go first.
 
 After a bit more reading, probably the Sieve of Eratosthenes would've been a
 better choice given the complexity involved in the Sieve of Atkin.  I'll stick
-to Atkin given the tests run in less than 16s.
+to Atkin given the tests run in less than 16s in debug mode, ~3s in release
+mode.
