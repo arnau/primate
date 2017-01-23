@@ -87,6 +87,5 @@ mode.
 I'm fairly pleased of the current state of the Sieve of Atkin implementation.
 There is room for improvement to make it faster though.
 
-The command line interface is not good enough.  The matrix generation should
-be externalised and tested and, instead of generating all values, it should
-generate just the upper triangle.
+The matrix generation is not good enough. It should generate unique values
+and mirror them on display.
