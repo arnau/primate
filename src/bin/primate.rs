@@ -37,7 +37,10 @@ fn compose_table(n: usize) {
     let mtx = matrix(atkin::sieve(n));
 
     for row in mtx {
-        table.add_row(Row::new(row.iter().map(|x| cell!(x)).collect()));
+        table.add_row(Row::new(row.iter()
+                                  .map(|&x| {
+                                      if x == 0 { cell!("") } else { cell!(x) }
+                                  }).collect()));
     }
 
     table.printstd();
