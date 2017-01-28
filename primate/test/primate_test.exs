@@ -2,6 +2,11 @@ defmodule PrimateTest do
   use ExUnit.Case
   doctest Primate
 
+  test "first quadratic" do
+    assert Primate.Atkin.first_quadratic(13) == true
+    assert Primate.Atkin.first_quadratic(17) == true
+  end
+
   test "one prime" do
     assert Primate.Atkin.sieve(1) == [2]
   end
@@ -35,12 +40,19 @@ defmodule PrimateTest do
     assert Primate.Atkin.sieve(1000) |> List.last == 7919
   end
 
+  @tag :slow
   test "twenty thousandth prime" do
     assert Primate.Atkin.sieve(20_000) |> List.last == 224_737
   end
 
-  test "third quadratic" do
-    assert Primate.Atkin.first_quadratic(13) == true
-    assert Primate.Atkin.first_quadratic(17) == true
+  @tag :alt
+  @tag :slow
+  test "alt twenty thousandth prime" do
+    assert Primate.Atkin.sieve_alt(20_000) |> List.last == 224_737
+  end
+
+  @tag :alt
+  test "alt forth prime" do
+    assert Primate.Atkin.sieve_alt(4) |> List.last == 7
   end
 end

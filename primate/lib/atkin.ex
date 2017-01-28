@@ -10,6 +10,38 @@ defmodule Primate.Atkin do
   See: https://en.wikipedia.org/wiki/Sieve_of_Atkin
   """
 
+  @doc """
+  Generates the requested amount of prime numbers.
+
+  This is an alternative approach which seems to be slightly slower.
+  """
+  @spec sieve_alt(integer) :: integer
+  def sieve_alt(amount) when is_integer(amount) and amount > 0 do
+    Enum.take(prime_stream(), amount)
+  end
+
+  @spec prime_stream :: [integer]
+  def prime_stream do
+    Stream.concat([2, 3, 5], Stream.unfold([5], &prime_gen/1))
+  end
+
+  defp prime_gen(acc) do
+    x = next_prime(acc)
+
+    {x, List.insert_at(acc, -1, x)}
+  end
+
+  @spec next_prime([integer]) :: integer
+  def next_prime(primes) do
+    primes
+      |> List.last
+      |> Stream.iterate(&(&1 + 1))
+      |> Stream.filter(&by_modulo_sixty/1)
+      |> Stream.drop_while(&(Enum.any?(primes, fn(p) -> rem(&1, p) == 0 end)))
+      |> Enum.take(1)
+      |> List.first
+  end
+
   def sieve(1), do: [2]
   def sieve(2), do: [2, 3]
   def sieve(3), do: [2, 3, 5]
@@ -19,17 +51,17 @@ defmodule Primate.Atkin do
   """
   @spec sieve(integer) :: [integer]
   def sieve(amount) when is_integer(amount) and amount > 0 do
-      Enum.reduce_while(potential_primes(), [2, 3, 5], fn (x, acc) ->
-        if length(acc) < amount do
-          if Enum.any?(acc, fn(p) -> rem(x, p) == 0 end) do
-            {:cont, acc}
-          else
-            {:cont, List.insert_at(acc, -1, x)}
-          end
+    Enum.reduce_while(potential_primes(), [2, 3, 5], fn (x, acc) ->
+      if length(acc) < amount do
+        if Enum.any?(acc, fn(p) -> rem(x, p) == 0 end) do
+          {:cont, acc}
         else
-          {:halt, acc}
+          {:cont, List.insert_at(acc, -1, x)}
         end
-      end)
+      else
+        {:halt, acc}
+      end
+    end)
   end
 
   @spec potential_primes :: [integer]
