@@ -13,4 +13,34 @@ defmodule PrimateTest do
   test "three primes" do
     assert Primate.Atkin.sieve(3) == [2, 3, 5]
   end
+
+  test "four primes" do
+    assert Primate.Atkin.sieve(4) == [2, 3, 5, 7]
+  end
+
+  test "twenty primes" do
+    assert Primate.Atkin.sieve(20) == [2, 3, 5, 7, 11, 13, 17, 19, 23, 29,
+                                       31, 37, 41, 43, 47, 53, 59, 61, 67, 71]
+  end
+
+  test "fourty primes" do
+    assert Primate.Atkin.sieve(40) == [2, 3, 5, 7, 11, 13, 17, 19, 23, 29,
+                                       31, 37, 41, 43, 47, 53, 59, 61, 67, 71,
+                                       73, 79, 83, 89, 97, 101, 103, 107, 109,
+                                       113, 127, 131, 137, 139, 149, 151, 157,
+                                       163, 167, 173]
+  end
+
+  test "thousandth prime" do
+    assert Primate.Atkin.sieve(1000) |> List.last == 7919
+  end
+
+  test "twenty thousandth prime" do
+    assert Primate.Atkin.sieve(20_000) |> List.last == 224_737
+  end
+
+  test "third quadratic" do
+    assert Primate.Atkin.first_quadratic(13) == true
+    assert Primate.Atkin.first_quadratic(17) == true
+  end
 end
